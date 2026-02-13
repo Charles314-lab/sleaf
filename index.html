@@ -489,6 +489,85 @@
             }
         }
 
+        /* Credits Screen - Movie Style */
+        .credits-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .credits-screen.active {
+            display: flex;
+            animation: fadeInScreen 2s ease-out forwards;
+        }
+
+        .credits-content {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.8rem;
+            color: var(--rose-pale);
+            text-align: center;
+            line-height: 2.5;
+            padding: 40px;
+            position: absolute;
+            bottom: -100%;
+            animation: scrollCredits 25s linear forwards;
+        }
+
+        @keyframes scrollCredits {
+            from {
+                bottom: -100%;
+            }
+            to {
+                bottom: 100%;
+            }
+        }
+
+        .credits-line {
+            margin: 30px 0;
+        }
+
+        .credits-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin: 50px 0 20px 0;
+            color: var(--rose-vif);
+        }
+
+        .credits-name {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .credits-date {
+            font-size: 1.6rem;
+            font-style: italic;
+            opacity: 0.8;
+            margin: 10px 0;
+        }
+
+        .credits-signature {
+            font-style: italic;
+            font-size: 2rem;
+            margin-top: 60px;
+        }
+
+        .credits-footer {
+            font-size: 1.4rem;
+            opacity: 0.6;
+            margin-top: 80px;
+        }
+
         .hidden {
             display: none !important;
         }
@@ -531,6 +610,31 @@
 
             .spotlight-content {
                 padding: 40px 20px;
+            }
+
+            .credits-content {
+                font-size: 1.3rem;
+                padding: 20px;
+            }
+
+            .credits-title {
+                font-size: 1.8rem;
+            }
+
+            .credits-name {
+                font-size: 1.6rem;
+            }
+
+            .credits-date {
+                font-size: 1.2rem;
+            }
+
+            .credits-signature {
+                font-size: 1.5rem;
+            }
+
+            .credits-footer {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -594,11 +698,46 @@
         <div class="final-text">Je sais que je t'aime.</div>
     </div>
 
+    <!-- Credits Screen -->
+    <div class="credits-screen" id="creditsScreen">
+        <div class="credits-content">
+            <div class="credits-title">À toi, mon amour</div>
+            
+            <div class="credits-name">Samuella Liebe Ewoe Aroube FOMBI.</div>
+            
+            
+            <div class="credits-line" style="margin-top: 80px;">
+                En ce jour de la Saint-Valentin,
+            </div>
+            <div class="credits-line">
+                Je te souhaite tout le bonheur du monde.
+            </div>
+            
+            <div class="credits-line" style="margin-top: 60px;">
+                Tu es et resteras
+            </div>
+            <div class="credits-line">
+                La plus belle chose qui me soit arrivée.
+            </div>
+            
+            <div class="credits-signature">
+                Avec tout mon amour,<br>
+                <em>Cariño</em> ♡
+            </div>
+            
+            <div class="credits-footer">
+                — Fait avec amour, le 14 février 2026 —
+            </div>
+        </div>
+    </div>
+
     <!-- Audio element -->
     <audio id="backgroundMusic" loop preload="auto">
         <!-- Place your music file in assets/ folder -->
         <!-- Multiple formats for better browser compatibility -->
         <source src="assets/music.mp3" type="audio/mpeg">
+        <source src="assets/music.ogg" type="audio/ogg">
+        <source src="assets/music.wav" type="audio/wav">
     </audio>
 
     <script>
@@ -861,23 +1000,10 @@
         function fadeToBlackAndStop() {
             const messageScreen = document.getElementById('messageScreen');
             const blackScreen = document.getElementById('blackScreen');
-            const backgroundMusic = document.getElementById('backgroundMusic');
+            // Music keeps playing - don't stop it
             
             // Fade out message screen
             messageScreen.style.opacity = '0';
-            
-            // Fade out music more slowly
-            let volume = 1;
-            const fadeAudio = setInterval(() => {
-                if (volume > 0.05) {
-                    volume -= 0.05;
-                    backgroundMusic.volume = volume;
-                } else {
-                    clearInterval(fadeAudio);
-                    backgroundMusic.pause();
-                    backgroundMusic.volume = 1;
-                }
-            }, 150); // Slower fade (was 100)
             
             setTimeout(() => {
                 messageScreen.style.display = 'none';
@@ -887,7 +1013,7 @@
                 setTimeout(() => {
                     showFinalMessage();
                 }, 3000);
-            }, 2000); // Slower fade to black (was 1500)
+            }, 2000);
         }
 
         function showFinalMessage() {
@@ -899,7 +1025,26 @@
             setTimeout(() => {
                 blackScreen.style.display = 'none';
                 finalMessageScreen.classList.add('active');
+                
+                // Wait 15 seconds, then fade out and show credits
+                setTimeout(() => {
+                    fadeToCredits();
+                }, 15000);
             }, 1000);
+        }
+
+        function fadeToCredits() {
+            const finalMessageScreen = document.getElementById('finalMessageScreen');
+            const creditsScreen = document.getElementById('creditsScreen');
+            
+            // Fade out final message
+            finalMessageScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                finalMessageScreen.style.display = 'none';
+                // Show credits
+                creditsScreen.classList.add('active');
+            }, 2000);
         }
 
         // Add shake animation
