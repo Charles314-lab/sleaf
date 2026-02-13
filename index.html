@@ -376,7 +376,7 @@
         }
 
         .verse.visible {
-            animation: fadeInVerse 1.8s ease-out forwards;
+            animation: fadeInVerse 2.5s ease-out forwards;
         }
 
         @keyframes fadeInVerse {
@@ -386,7 +386,7 @@
         }
 
         .verse-container.fade-out {
-            animation: fadeUpOut 1.5s ease-out forwards;
+            animation: fadeUpOut 2s ease-out forwards;
         }
 
         @keyframes fadeUpOut {
@@ -407,7 +407,7 @@
         }
 
         .special-verse.visible {
-            animation: specialVerseReveal 2.5s ease-out forwards;
+            animation: specialVerseReveal 3.5s ease-out forwards;
         }
 
         @keyframes specialVerseReveal {
@@ -595,9 +595,12 @@
     </div>
 
     <!-- Audio element -->
-    <audio id="backgroundMusic" loop>
-        <!-- Place your music file in assets/music.mp3 -->
+    <audio id="backgroundMusic" loop preload="auto">
+        <!-- Place your music file in assets/ folder -->
+        <!-- Multiple formats for better browser compatibility -->
         <source src="assets/music.mp3" type="audio/mpeg">
+        <source src="assets/music.ogg" type="audio/ogg">
+        <source src="assets/music.wav" type="audio/wav">
     </audio>
 
     <script>
@@ -614,6 +617,8 @@
             "Sans toi, mon monde serait incomplet... 🌹",
             "Tu es mon étoile dans l'immensité de l'univers... ⭐",
             "Mon cœur n'appartient qu'à toi, acceptes-tu le mien ? 💖"
+            "Là je ne demande plus. T'es ma Valentine par force ! 😊"
+            "Allez, dis « Oui » 🥹✨"
         ];
 
         // Your beautiful love text - organized by groups of 3
@@ -701,15 +706,34 @@
         function handleYes() {
             // Start music immediately on user interaction
             const backgroundMusic = document.getElementById('backgroundMusic');
+            
+            // Set volume to full
+            backgroundMusic.volume = 1.0;
+            
             console.log('Starting music on button click...');
-            backgroundMusic.play()
-                .then(() => {
-                    console.log('Music started successfully!');
-                })
-                .catch(e => {
-                    console.error('Music playback failed:', e);
-                    alert('La musique ne peut pas se lancer.\n\nVérifie que le fichier assets/music.mp3 existe et est au bon format.');
-                });
+            console.log('Audio element:', backgroundMusic);
+            console.log('Audio src:', backgroundMusic.currentSrc);
+            
+            // Try to load and play
+            backgroundMusic.load();
+            
+            const playPromise = backgroundMusic.play();
+            
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        console.log('✅ Music started successfully!');
+                    })
+                    .catch(e => {
+                        console.error('❌ Music playback failed:', e);
+                        console.error('Error details:', e.message);
+                        alert('⚠️ La musique ne peut pas se lancer.\n\nProblème possible:\n' + 
+                              '1. Le fichier assets/music.mp3 n\'existe pas\n' +
+                              '2. Vérifie le chemin du fichier\n' +
+                              '3. Essaie un format différent (mp3, ogg, wav)\n\n' +
+                              'Erreur: ' + e.message);
+                    });
+            }
             
             // Start the sequence
             startSequence();
@@ -735,7 +759,7 @@
                     // Step 3: After loading, show message
                     setTimeout(() => {
                         showMessage();
-                    }, 3000);
+                    }, 4000); // 4 seconds loading (was 3)
                 }, 500);
             }, 1200);
         }
@@ -764,8 +788,8 @@
         function animateVerseGroups() {
             const spotlightContent = document.getElementById('spotlightContent');
             let currentGroup = 0;
-            const delayBetweenVerses = 2500; // 2.5 seconds between each verse
-            const delayBeforeNextGroup = 1500; // 1.5 seconds after fade out before next group
+            const delayBetweenVerses = 4000; // 4 seconds between each verse (was 2.5)
+            const delayBeforeNextGroup = 2000; // 2 seconds after fade out before next group (was 1.5)
 
             function showNextGroup() {
                 if (currentGroup >= verseGroups.length) {
@@ -808,7 +832,7 @@
                                     container.remove();
                                     currentGroup++;
                                     showNextGroup();
-                                }, 1500); // Duration of fade out animation
+                                }, 2000); // Duration of fade out animation (was 1500)
                             }, delayBetweenVerses); // Wait before fading out
                         }
                     }, index * delayBetweenVerses);
@@ -833,10 +857,10 @@
             setTimeout(() => {
                 specialDiv.classList.add('visible');
                 
-                // After 4 seconds, fade to black and stop music
+                // After 6 seconds, fade to black and stop music (was 4)
                 setTimeout(() => {
                     fadeToBlackAndStop();
-                }, 4000);
+                }, 6000);
             }, 100);
         }
 
@@ -848,28 +872,28 @@
             // Fade out message screen
             messageScreen.style.opacity = '0';
             
-            // Fade out music
+            // Fade out music more slowly
             let volume = 1;
             const fadeAudio = setInterval(() => {
-                if (volume > 0.1) {
-                    volume -= 0.1;
+                if (volume > 0.05) {
+                    volume -= 0.05;
                     backgroundMusic.volume = volume;
                 } else {
                     clearInterval(fadeAudio);
                     backgroundMusic.pause();
                     backgroundMusic.volume = 1;
                 }
-            }, 100);
+            }, 150); // Slower fade (was 100)
             
             setTimeout(() => {
                 messageScreen.style.display = 'none';
                 blackScreen.classList.add('active');
                 
-                // After 2 seconds of black, show final message
+                // After 3 seconds of black, show final message (was 2)
                 setTimeout(() => {
                     showFinalMessage();
-                }, 2000);
-            }, 1500);
+                }, 3000);
+            }, 2000); // Slower fade to black (was 1500)
         }
 
         function showFinalMessage() {
