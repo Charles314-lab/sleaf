@@ -340,7 +340,7 @@
         }
 
         .spotlight-content {
-            max-width: 800px;
+            max-width: 900px;
             width: 90%;
             padding: 60px 40px;
             text-align: center;
@@ -353,9 +353,15 @@
             min-height: 60vh;
         }
 
-        .verse-group {
+        .verse-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            position: absolute;
             width: 100%;
-            margin-bottom: 20px;
+            max-width: 800px;
         }
 
         .verse {
@@ -365,8 +371,8 @@
             color: var(--rose-pale);
             font-style: italic;
             opacity: 0;
-            margin: 12px 0;
-            transform: translateY(20px);
+            text-align: center;
+            width: 100%;
         }
 
         .verse.visible {
@@ -376,18 +382,17 @@
         @keyframes fadeInVerse {
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
         }
 
-        .verse-group.slide-up {
-            animation: slideUpGroup 1.2s ease-out forwards;
+        .verse-container.fade-out {
+            animation: fadeUpOut 1.5s ease-out forwards;
         }
 
-        @keyframes slideUpGroup {
+        @keyframes fadeUpOut {
             to {
-                transform: translateY(-40px);
-                opacity: 0.3;
+                transform: translateY(-50px);
+                opacity: 0;
             }
         }
 
@@ -748,8 +753,8 @@
         function animateVerseGroups() {
             const spotlightContent = document.getElementById('spotlightContent');
             let currentGroup = 0;
-            const delayBetweenVerses = 2000; // 2 seconds between each verse
-            const delayBetweenGroups = 1500; // 1.5 seconds between groups
+            const delayBetweenVerses = 2500; // 2.5 seconds between each verse
+            const delayBeforeNextGroup = 1500; // 1.5 seconds after fade out before next group
 
             function showNextGroup() {
                 if (currentGroup >= verseGroups.length) {
@@ -760,39 +765,43 @@
                     return;
                 }
 
-                // Slide up previous group if exists
-                const previousGroups = document.querySelectorAll('.verse-group');
-                previousGroups.forEach(group => {
-                    if (!group.classList.contains('slide-up')) {
-                        group.classList.add('slide-up');
-                    }
-                });
-
-                // Create new group container
-                const groupDiv = document.createElement('div');
-                groupDiv.className = 'verse-group';
+                // Create container for this group
+                const container = document.createElement('div');
+                container.className = 'verse-container';
                 
                 const verses = verseGroups[currentGroup];
                 
-                // Add verses to the group
-                verses.forEach((verseText, index) => {
+                // Add all 3 verses to the container (but invisible initially)
+                verses.forEach((verseText) => {
                     const verseDiv = document.createElement('div');
                     verseDiv.className = 'verse';
                     verseDiv.textContent = verseText;
-                    groupDiv.appendChild(verseDiv);
-                    
-                    // Animate each verse with delay
-                    setTimeout(() => {
-                        verseDiv.classList.add('visible');
-                    }, index * delayBetweenVerses);
+                    container.appendChild(verseDiv);
                 });
                 
-                spotlightContent.appendChild(groupDiv);
+                spotlightContent.appendChild(container);
                 
-                // Move to next group after all verses are shown
-                const totalDelay = verses.length * delayBetweenVerses + delayBetweenGroups;
-                currentGroup++;
-                setTimeout(showNextGroup, totalDelay);
+                // Animate each verse appearing one by one
+                const verseElements = container.querySelectorAll('.verse');
+                verseElements.forEach((verseElement, index) => {
+                    setTimeout(() => {
+                        verseElement.classList.add('visible');
+                        
+                        // If this is the third verse (index 2), trigger fade out of entire group
+                        if (index === 2) {
+                            setTimeout(() => {
+                                container.classList.add('fade-out');
+                                
+                                // Remove container after fade out and show next group
+                                setTimeout(() => {
+                                    container.remove();
+                                    currentGroup++;
+                                    showNextGroup();
+                                }, 1500); // Duration of fade out animation
+                            }, delayBetweenVerses); // Wait before fading out
+                        }
+                    }, index * delayBetweenVerses);
+                });
             }
 
             showNextGroup();
@@ -801,31 +810,23 @@
         function showSpecialVerse() {
             const spotlightContent = document.getElementById('spotlightContent');
             
-            // Clear and slide up all previous content
-            const allGroups = document.querySelectorAll('.verse-group');
-            allGroups.forEach(group => {
-                group.style.animation = 'slideUpGroup 1s ease-out forwards';
-            });
-
+            // Clear all previous content
+            spotlightContent.innerHTML = '';
+            
+            // Show "Je sais"
+            const specialDiv = document.createElement('div');
+            specialDiv.className = 'special-verse';
+            specialDiv.textContent = 'Je sais.';
+            spotlightContent.appendChild(specialDiv);
+            
             setTimeout(() => {
-                // Clear all previous content
-                spotlightContent.innerHTML = '';
+                specialDiv.classList.add('visible');
                 
-                // Show "Je sais"
-                const specialDiv = document.createElement('div');
-                specialDiv.className = 'special-verse';
-                specialDiv.textContent = 'Je sais.';
-                spotlightContent.appendChild(specialDiv);
-                
+                // After 4 seconds, fade to black and stop music
                 setTimeout(() => {
-                    specialDiv.classList.add('visible');
-                    
-                    // After 3 seconds, fade to black and stop music
-                    setTimeout(() => {
-                        fadeToBlackAndStop();
-                    }, 4000);
-                }, 100);
-            }, 1000);
+                    fadeToBlackAndStop();
+                }, 4000);
+            }, 100);
         }
 
         function fadeToBlackAndStop() {
