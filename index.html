@@ -617,8 +617,6 @@
             "Sans toi, mon monde serait incomplet... 🌹",
             "Tu es mon étoile dans l'immensité de l'univers... ⭐",
             "Mon cœur n'appartient qu'à toi, acceptes-tu le mien ? 💖"
-            "Là je ne demande plus. T'es ma Valentine par force ! 😊"
-            "Allez, dis « Oui » 🥹✨"
         ];
 
         // Your beautiful love text - organized by groups of 3
@@ -727,11 +725,7 @@
                     .catch(e => {
                         console.error('❌ Music playback failed:', e);
                         console.error('Error details:', e.message);
-                        alert('⚠️ La musique ne peut pas se lancer.\n\nProblème possible:\n' + 
-                              '1. Le fichier assets/music.mp3 n\'existe pas\n' +
-                              '2. Vérifie le chemin du fichier\n' +
-                              '3. Essaie un format différent (mp3, ogg, wav)\n\n' +
-                              'Erreur: ' + e.message);
+                        alert('La musique ne peut pas se lancer. Verifie que le fichier assets/music.mp3 existe.');
                     });
             }
             
