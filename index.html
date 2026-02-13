@@ -699,6 +699,19 @@
         }
 
         function handleYes() {
+            // Start music immediately on user interaction
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            console.log('Starting music on button click...');
+            backgroundMusic.play()
+                .then(() => {
+                    console.log('Music started successfully!');
+                })
+                .catch(e => {
+                    console.error('Music playback failed:', e);
+                    alert('La musique ne peut pas se lancer.\n\nVérifie que le fichier assets/music.mp3 existe et est au bon format.');
+                });
+            
+            // Start the sequence
             startSequence();
         }
 
@@ -731,7 +744,6 @@
             const loadingScreen = document.getElementById('loadingScreen');
             const messageScreen = document.getElementById('messageScreen');
             const spotlightContent = document.getElementById('spotlightContent');
-            const backgroundMusic = document.getElementById('backgroundMusic');
             
             // Fade out loading
             loadingScreen.style.opacity = '0';
@@ -742,8 +754,7 @@
                 // Show message screen
                 messageScreen.classList.add('active');
                 
-                // Start music
-                backgroundMusic.play().catch(e => console.log('Music autoplay blocked - will start on interaction'));
+                // Music already started on button click
                 
                 // Animate verse groups
                 animateVerseGroups();
