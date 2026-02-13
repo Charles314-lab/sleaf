@@ -318,7 +318,7 @@
             font-style: italic;
         }
 
-        /* Spotlight Message Screen */
+        /* Message Screen with Spotlight */
         .message-screen {
             position: fixed;
             top: 0;
@@ -331,6 +331,7 @@
             justify-content: center;
             z-index: 9997;
             opacity: 0;
+            overflow: hidden;
         }
 
         .message-screen.active {
@@ -339,631 +340,88 @@
         }
 
         .spotlight-content {
-            max-width: 700px;
+            max-width: 800px;
             width: 90%;
-            padding: 60px;
+            padding: 60px 40px;
             text-align: center;
             position: relative;
-            background: radial-gradient(ellipse at center, rgba(255, 214, 232, 0.15) 0%, transparent 70%);
+            background: radial-gradient(ellipse at center, rgba(255, 214, 232, 0.12) 0%, transparent 70%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
         }
 
-        .poem-line {
+        .verse-group {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .verse {
             font-family: 'Crimson Text', serif;
-            font-size: 1.8rem;
-            line-height: 2.2;
+            font-size: 1.6rem;
+            line-height: 2;
             color: var(--rose-pale);
             font-style: italic;
             opacity: 0;
-            margin: 20px 0;
+            margin: 12px 0;
+            transform: translateY(20px);
         }
 
-        .poem-line.visible {
-            animation: fadeInLine 1.5s ease-out forwards;
+        .verse.visible {
+            animation: fadeInVerse 1.8s ease-out forwards;
         }
 
-        @keyframes fadeInLine {
-            to {
-                opacity: 1;
-            }
-        }
-
-        .final-word {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            color: var(--rose-vif);
-            font-weight: 600;
-            margin-top: 50px;
-            opacity: 0;
-        }
-
-        .final-word.visible {
-            animation: finalWordReveal 2s ease-out forwards;
-        }
-
-        @keyframes finalWordReveal {
-            0% {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.1);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* Final Message Screen */
-        .final-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--bleu-pale) 0%, var(--rose-pale) 100%);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9996;
-            opacity: 0;
-        }
-
-        .final-screen.active {
-            display: flex;
-            animation: fadeInScreen 1.5s ease-out forwards;
-        }
-
-        .final-message {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
-            color: var(--bleu-profond);
-            font-weight: 600;
-            text-align: center;
-            font-style: italic;
-            animation: pulseGlow 3s infinite;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% {
-                transform: scale(1);
-                text-shadow: 0 0 20px rgba(255, 107, 169, 0.3);
-            }
-            50% {
-                transform: scale(1.05);
-                text-shadow: 0 0 40px rgba(255, 107, 169, 0.6);
-            }
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 40px 30px;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .question {
-                font-size: 1.4rem;
-            }
-            
-            button {
-                font-size: 1.1rem;
-                padding: 12px 35px;
-            }
-            
-            .poem-line {
-                font-size: 1.3rem;
-            }
-
-            .final-word {
-                font-size: 2rem;
-            }
-
-            .final-message {
-                font-size: 2.5rem;
-                padding: 0 20px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Floating hearts background -->
-    <div class="hearts-bg">
-        <div class="heart">♥</div>
-        <div class="heart">♥</div>
-        <div class="heart">♥</div>
-        <div class="heart">♥</div>
-        <div class="heart">♥</div>
-        <div class="heart">♥</div>
-    </div>
-
-    <div class="container" id="mainContainer">
-        <h1>Pour Toi</h1>
-        <div class="subtitle">Une question qui vient du cœur...</div>
-
-        <!-- Question section -->
-        <div class="question-section" id="questionSection">
-            <p class="question" id="questionText">Veux-tu être ma Valentine ? ♡</p>
-            <div class="buttons">
-                <button class="btn-yes" onclick="handleYes()">
-                    <span style="position: relative; z-index: 1;">Oui ♡</span>
-                </button>
-                <button class="btn-no" onclick="handleNo()">
-                    <span style="position: relative; z-index: 1;">Non</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- TV Shutdown Effect -->
-    <div class="tv-shutdown" id="tvShutdown"></div>
-
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loader">
-            <div class="hearts-loader">
-                <div class="heart-beat">♥</div>
-                <div class="heart-beat">♥</div>
-                <div class="heart-beat">♥</div>
-            </div>
-            <div class="loading-text">Préparation de quelque chose de spécial...</div>
-        </div>
-    </div>
-
-    <!-- Message Screen with Spotlight -->
-    <div class="message-screen" id="messageScreen">
-        <div class="spotlight-content">
-            <div id="poemContainer">
-                <!-- Poem lines will be inserted here -->
-            </div>
-            <div class="final-word" id="finalWord">Toujours ♡</div>
-        </div>
-    </div>
-
-    <!-- Final Screen -->
-    <div class="final-screen" id="finalScreen">
-        <div class="final-message">Je t'aime à l'infini ∞</div>
-    </div>
-
-    <!-- YouTube Music Player (hidden) -->
-    <div id="youtube-player" style="display: none;"></div>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script>
-        let noClickCount = 0;
-        let player;
-
-        // Initialize YouTube Player
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('youtube-player', {
-                height: '0',
-                width: '0',
-                videoId: 'Rbq0zH6wXCo', // Canon in D - Cello and Piano version
-                playerVars: {
-                    'autoplay': 0,
-                    'controls': 0,
-                    'loop': 1,
-                    'playlist': 'Rbq0zH6wXCo'
-                },
-                events: {
-                    'onReady': onPlayerReady
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            console.log('YouTube player ready');
-        }
-
-        // Progressive romantic questions
-        const questions = [
-            "Veux-tu être ma Valentine ? ♡",
-            "Es-tu sûre ? Mon cœur bat déjà pour toi... 💕",
-            "Vraiment ? Tu es pourtant la plus belle chose qui me soit arrivée... ✨",
-            "S'il te plaît ? Chaque instant avec toi est magique... 🌟",
-            "Mon amour, ne sens-tu pas cette connexion entre nous ? 💫",
-            "Tu es celle qui illumine mes jours et mes nuits... 🌙",
-            "Sans toi, mon monde serait incomplet... 🌹",
-            "Tu es mon étoile dans l'immensité de l'univers... ⭐",
-            "Mon cœur n'appartient qu'à toi, acceptes-tu le mien ? 💖"
-        ];
-
-        // Your romantic text (edit this!)
-        const poemLines = [
-            "Dans le silence de mes pensées,",
-            "C'est ton sourire que je vois danser.",
-            "Chaque battement de mon cœur murmure ton nom,",
-            "Comme une mélodie qui ne s'arrête jamais.",
-            "",
-            "Tu es la lumière qui guide mes pas,",
-            "L'étoile qui brille dans ma nuit,",
-            "La douce promesse d'un amour infini,",
-            "Que je chérirai jusqu'à la fin des temps."
-        ];
-
-        function handleNo() {
-            const questionText = document.getElementById('questionText');
-            const container = document.getElementById('mainContainer');
-            
-            // Shake animation
-            container.style.animation = 'none';
-            setTimeout(() => {
-                container.style.animation = 'shake 0.5s';
-            }, 10);
-            
-            // Change question
-            if (noClickCount < questions.length - 1) {
-                noClickCount++;
-                setTimeout(() => {
-                    questionText.style.opacity = '0';
-                    setTimeout(() => {
-                        questionText.textContent = questions[noClickCount];
-                        questionText.style.opacity = '1';
-                    }, 300);
-                }, 200);
-            }
-        }
-
-        function handleYes() {
-            // Start the sequence
-            startSequence();
-        }
-
-        function startSequence() {
-            const tvShutdown = document.getElementById('tvShutdown');
-            const loadingScreen = document.getElementById('loadingScreen');
-            const mainContainer = document.getElementById('mainContainer');
-            
-            // Step 1: TV Shutdown
-            tvShutdown.classList.add('active');
-            mainContainer.style.opacity = '0';
-            
-            setTimeout(() => {
-                mainContainer.style.display = 'none';
-                tvShutdown.classList.remove('active');
-                
-                // Step 2: Loading Screen
-                setTimeout(() => {
-                    loadingScreen.classList.add('active');
-                    
-                    // Step 3: After loading, show message
-                    setTimeout(() => {
-                        showMessage();
-                    }, 3000); // 3 seconds loading
-                }, 500);
-            }, 1200);
-        }
-
-        function showMessage() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            const messageScreen = document.getElementById('messageScreen');
-            const poemContainer = document.getElementById('poemContainer');
-            const finalWord = document.getElementById('finalWord');
-            
-            // Fade out loading
-            loadingScreen.style.opacity = '0';
-            
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                
-                // Show message screen
-                messageScreen.classList.add('active');
-                
-                // Start YouTube music
-                if (player && player.playVideo) {
-                    player.playVideo();
-                }
-                
-                // Insert poem lines
-                poemLines.forEach((line, index) => {
-                    const lineDiv = document.createElement('div');
-                    lineDiv.className = 'poem-line';
-                    lineDiv.textContent = line;
-                    poemContainer.appendChild(lineDiv);
-                });
-                
-                // Animate lines one by one
-                const lines = document.querySelectorAll('.poem-line');
-                lines.forEach((line, index) => {
-                    setTimeout(() => {
-                        line.classList.add('visible');
-                    }, index * 2000); // 2 seconds between each line
-                });
-                
-                // Show final word
-                setTimeout(() => {
-                    finalWord.classList.add('visible');
-                    
-                    // After final word, fade to black
-                    setTimeout(() => {
-                        fadeToBlack();
-                    }, 3000);
-                }, lines.length * 2000 + 1000);
-            }, 500);
-        }
-
-        function fadeToBlack() {
-            const messageScreen = document.getElementById('messageScreen');
-            
-            // Fade out message screen to black
-            messageScreen.style.opacity = '0';
-            
-            setTimeout(() => {
-                messageScreen.style.display = 'none';
-                // Screen stays black - no more content shown
-            }, 1000);
-        }
-
-        // Add shake animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                25% { transform: translateX(-10px) rotate(-2deg); }
-                75% { transform: translateX(10px) rotate(2deg); }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pour Toi ♡</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --rose-pale: #ffd6e8;
-            --rose-medium: #ffb3d9;
-            --rose-vif: #ff6ba9;
-            --bleu-pale: #d6e8ff;
-            --bleu-medium: #a8d0ff;
-            --bleu-profond: #5a8fd1;
-            --blanc-creme: #fffef9;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Crimson Text', serif;
-            background: linear-gradient(135deg, var(--bleu-pale) 0%, var(--rose-pale) 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Floating hearts background */
-        .hearts-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .heart {
-            position: absolute;
-            font-size: 20px;
-            color: var(--rose-medium);
-            opacity: 0.15;
-            animation: float 15s infinite ease-in-out;
-        }
-
-        .heart:nth-child(1) { left: 10%; animation-delay: 0s; }
-        .heart:nth-child(2) { left: 25%; animation-delay: 3s; }
-        .heart:nth-child(3) { left: 40%; animation-delay: 6s; }
-        .heart:nth-child(4) { left: 55%; animation-delay: 2s; }
-        .heart:nth-child(5) { left: 70%; animation-delay: 5s; }
-        .heart:nth-child(6) { left: 85%; animation-delay: 8s; }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.15;
-            }
-            90% {
-                opacity: 0.15;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        .container {
-            position: relative;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 60px 50px;
-            max-width: 550px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(90, 143, 209, 0.15),
-                        0 0 0 1px rgba(255, 182, 217, 0.2);
-            text-align: center;
-            animation: slideIn 1s ease-out;
-            transition: all 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
+        @keyframes fadeInVerse {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            font-weight: 400;
-            font-style: italic;
-            color: var(--bleu-profond);
-            margin-bottom: 15px;
-            letter-spacing: -1px;
+        .verse-group.slide-up {
+            animation: slideUpGroup 1.2s ease-out forwards;
         }
 
-        .subtitle {
-            font-size: 1.3rem;
-            color: var(--rose-vif);
-            margin-bottom: 40px;
-            font-style: italic;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 0.5s forwards;
-        }
-
-        @keyframes fadeIn {
+        @keyframes slideUpGroup {
             to {
-                opacity: 1;
+                transform: translateY(-40px);
+                opacity: 0.3;
             }
         }
 
-        .question-section {
-            margin: 50px 0;
-        }
-
-        .question {
-            font-size: 1.8rem;
-            color: var(--bleu-profond);
-            margin-bottom: 35px;
+        .special-verse {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--rose-vif);
             font-weight: 600;
-            line-height: 1.5;
-            transition: all 0.5s ease;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        button {
-            font-family: 'Crimson Text', serif;
-            font-size: 1.3rem;
-            padding: 15px 45px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.4);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        button:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn-yes {
-            background: linear-gradient(135deg, var(--rose-vif) 0%, var(--rose-medium) 100%);
-            color: white;
-            box-shadow: 0 5px 20px rgba(255, 107, 169, 0.3);
-        }
-
-        .btn-yes:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 107, 169, 0.4);
-        }
-
-        .btn-no {
-            background: linear-gradient(135deg, var(--bleu-profond) 0%, var(--bleu-medium) 100%);
-            color: white;
-            box-shadow: 0 5px 20px rgba(90, 143, 209, 0.3);
-        }
-
-        .btn-no:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(90, 143, 209, 0.4);
-        }
-
-        /* TV Shutdown Effect */
-        .tv-shutdown {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
-            z-index: 9999;
-            pointer-events: none;
+            margin: 80px 0;
             opacity: 0;
+            text-align: center;
         }
 
-        .tv-shutdown.active {
-            animation: tvOff 1.2s ease-out forwards;
+        .special-verse.visible {
+            animation: specialVerseReveal 2.5s ease-out forwards;
         }
 
-        @keyframes tvOff {
+        @keyframes specialVerseReveal {
             0% {
                 opacity: 0;
+                transform: scale(0.7);
             }
-            20% {
-                opacity: 0.8;
-                transform: scaleY(1) scaleX(1);
-            }
-            50% {
+            60% {
                 opacity: 1;
-                transform: scaleY(0.05) scaleX(1);
-                filter: brightness(3);
+                transform: scale(1.15);
             }
             100% {
                 opacity: 1;
-                transform: scaleY(0) scaleX(0);
-                filter: brightness(0);
+                transform: scale(1);
             }
         }
 
-        /* Loading Screen */
-        .loading-screen {
+        /* Final black screen */
+        .black-screen {
             position: fixed;
             top: 0;
             left: 0;
@@ -971,75 +429,17 @@
             height: 100%;
             background: black;
             display: none;
-            align-items: center;
-            justify-content: center;
             z-index: 9998;
             opacity: 0;
         }
 
-        .loading-screen.active {
-            display: flex;
-            animation: fadeInScreen 0.5s ease-out forwards;
+        .black-screen.active {
+            display: block;
+            animation: fadeInScreen 1.5s ease-out forwards;
         }
 
-        @keyframes fadeInScreen {
-            to {
-                opacity: 1;
-            }
-        }
-
-        .loader {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .hearts-loader {
-            display: flex;
-            gap: 15px;
-        }
-
-        .heart-beat {
-            font-size: 40px;
-            animation: heartBeat 1.4s infinite;
-        }
-
-        .heart-beat:nth-child(1) {
-            color: var(--rose-vif);
-            animation-delay: 0s;
-        }
-
-        .heart-beat:nth-child(2) {
-            color: var(--rose-medium);
-            animation-delay: 0.2s;
-        }
-
-        .heart-beat:nth-child(3) {
-            color: var(--bleu-medium);
-            animation-delay: 0.4s;
-        }
-
-        @keyframes heartBeat {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.5;
-            }
-            50% {
-                transform: scale(1.3);
-                opacity: 1;
-            }
-        }
-
-        .loading-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            color: var(--rose-pale);
-            font-style: italic;
-        }
-
-        /* Spotlight Message Screen */
-        .message-screen {
+        /* Final final message */
+        .final-message-screen {
             position: fixed;
             top: 0;
             left: 0;
@@ -1049,58 +449,27 @@
             display: none;
             align-items: center;
             justify-content: center;
-            z-index: 9997;
+            z-index: 9999;
             opacity: 0;
         }
 
-        .message-screen.active {
+        .final-message-screen.active {
             display: flex;
-            animation: fadeInScreen 1s ease-out forwards;
+            animation: fadeInScreen 2s ease-out forwards;
         }
 
-        .spotlight-content {
-            max-width: 700px;
-            width: 90%;
-            padding: 60px;
-            text-align: center;
-            position: relative;
-            background: radial-gradient(ellipse at center, rgba(255, 214, 232, 0.15) 0%, transparent 70%);
-        }
-
-        .poem-line {
-            font-family: 'Crimson Text', serif;
-            font-size: 1.8rem;
-            line-height: 2.2;
-            color: var(--rose-pale);
-            font-style: italic;
-            opacity: 0;
-            margin: 20px 0;
-        }
-
-        .poem-line.visible {
-            animation: fadeInLine 1.5s ease-out forwards;
-        }
-
-        @keyframes fadeInLine {
-            to {
-                opacity: 1;
-            }
-        }
-
-        .final-word {
+        .final-text {
             font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            color: var(--rose-vif);
+            font-size: 4rem;
+            color: var(--rose-pale);
             font-weight: 600;
-            margin-top: 50px;
+            font-style: italic;
+            text-align: center;
             opacity: 0;
+            animation: finalTextReveal 3s ease-out forwards;
         }
 
-        .final-word.visible {
-            animation: finalWordReveal 2s ease-out forwards;
-        }
-
-        @keyframes finalWordReveal {
+        @keyframes finalTextReveal {
             0% {
                 opacity: 0;
                 transform: scale(0.8);
@@ -1112,47 +481,6 @@
             100% {
                 opacity: 1;
                 transform: scale(1);
-            }
-        }
-
-        /* Final Message Screen */
-        .final-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--bleu-pale) 0%, var(--rose-pale) 100%);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9996;
-            opacity: 0;
-        }
-
-        .final-screen.active {
-            display: flex;
-            animation: fadeInScreen 1.5s ease-out forwards;
-        }
-
-        .final-message {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
-            color: var(--bleu-profond);
-            font-weight: 600;
-            text-align: center;
-            font-style: italic;
-            animation: pulseGlow 3s infinite;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% {
-                transform: scale(1);
-                text-shadow: 0 0 20px rgba(255, 107, 169, 0.3);
-            }
-            50% {
-                transform: scale(1.05);
-                text-shadow: 0 0 40px rgba(255, 107, 169, 0.6);
             }
         }
 
@@ -1182,17 +510,22 @@
                 padding: 12px 35px;
             }
             
-            .poem-line {
-                font-size: 1.3rem;
+            .verse {
+                font-size: 1.2rem;
             }
 
-            .final-word {
-                font-size: 2rem;
+            .special-verse {
+                font-size: 2.5rem;
+                margin: 60px 0;
             }
 
-            .final-message {
+            .final-text {
                 font-size: 2.5rem;
                 padding: 0 20px;
+            }
+
+            .spotlight-content {
+                padding: 40px 20px;
             }
         }
     </style>
@@ -1243,48 +576,27 @@
 
     <!-- Message Screen with Spotlight -->
     <div class="message-screen" id="messageScreen">
-        <div class="spotlight-content">
-            <div id="poemContainer">
-                <!-- Poem lines will be inserted here -->
-            </div>
-            <div class="final-word" id="finalWord">Toujours ♡</div>
+        <div class="spotlight-content" id="spotlightContent">
+            <!-- Verses will be inserted here dynamically -->
         </div>
     </div>
 
-    <!-- Final Screen -->
-    <div class="final-screen" id="finalScreen">
-        <div class="final-message">Je t'aime à l'infini ∞</div>
+    <!-- Black Screen -->
+    <div class="black-screen" id="blackScreen"></div>
+
+    <!-- Final Message Screen -->
+    <div class="final-message-screen" id="finalMessageScreen">
+        <div class="final-text">Je sais que je t'aime.</div>
     </div>
 
-    <!-- YouTube Music Player (hidden) -->
-    <div id="youtube-player" style="display: none;"></div>
+    <!-- Audio element -->
+    <audio id="backgroundMusic" loop>
+        <!-- Place your music file in assets/music.mp3 -->
+        <source src="assets/music.mp3" type="audio/mpeg">
+    </audio>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         let noClickCount = 0;
-        let player;
-
-        // Initialize YouTube Player
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('youtube-player', {
-                height: '0',
-                width: '0',
-                videoId: 'Rbq0zH6wXCo', // Canon in D - Cello and Piano version
-                playerVars: {
-                    'autoplay': 0,
-                    'controls': 0,
-                    'loop': 1,
-                    'playlist': 'Rbq0zH6wXCo'
-                },
-                events: {
-                    'onReady': onPlayerReady
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            console.log('YouTube player ready');
-        }
 
         // Progressive romantic questions
         const questions = [
@@ -1299,17 +611,63 @@
             "Mon cœur n'appartient qu'à toi, acceptes-tu le mien ? 💖"
         ];
 
-        // Your romantic text (edit this!)
-        const poemLines = [
-            "Dans le silence de mes pensées,",
-            "C'est ton sourire que je vois danser.",
-            "Chaque battement de mon cœur murmure ton nom,",
-            "Comme une mélodie qui ne s'arrête jamais.",
-            "",
-            "Tu es la lumière qui guide mes pas,",
-            "L'étoile qui brille dans ma nuit,",
-            "La douce promesse d'un amour infini,",
-            "Que je chérirai jusqu'à la fin des temps."
+        // Your beautiful love text - organized by groups of 3
+        const verseGroups = [
+            [
+                "Six mois.",
+                "Six mois depuis ce 4 août où nos chemins ont décidé de ne plus marcher seuls.",
+                "On a traversé des tempêtes avant même de s'appeler \"nous\". Et depuis, les vagues ne se calment pas toujours."
+            ],
+            [
+                "Les jours s'empilent, les doutes s'invitent, Les disputes montent,",
+                "Parce qu'aimer, c'est se découvrir,",
+                "Et se découvrir, c'est parfois se blesser."
+            ],
+            [
+                "On s'aime, alors tout nous atteint.",
+                "Certains disent qu'on a eu tort,",
+                "D'autres disent qu'on a eu raison. Et moi, je ne sais pas toujours ce que Dieu veut,"
+            ],
+            [
+                "Mais je sais ce que mon cœur crie.",
+                "Je sais que je t'aime.",
+                "Quand tu souris, le monde se recolore."
+            ],
+            [
+                "En un mot, tu changes mon humeur, ma vision, ma journée.",
+                "Avec toi, je connais le bonheur.",
+                "Pas le bonheur parfait,"
+            ],
+            [
+                "Mais le vrai celui qui lutte, qui pleure, qui reste.",
+                "Tu es ma lumière dans mes ombres,",
+                "Mon calme après la colère,"
+            ],
+            [
+                "Mon \"encore\" après \"je ne peux plus\".",
+                "Ceux qui ne voient pas ta valeur comprendront trop tard.",
+                "Moi, je la vois chaque jour,"
+            ],
+            [
+                "Dans ton regard, dans ton effort, dans ton \"je reste\".",
+                "Je me fiche des rumeurs,",
+                "Je me fiche de ce qu'on dit de toi, de nous."
+            ],
+            [
+                "Je n'ai besoin que d'une vérité : toi.",
+                "Je t'aime sans frein, sans barrière, sans calcul.",
+                "Et si ce n'est pas la volonté de Dieu, alors que Dieu sache que j'aurai aimé de tout ce qu'Il m'a donné."
+            ],
+            [
+                "Parce que je t'aime d'un amour fou, d'un amour qui prie, d'un amour qui espère, d'un amour qui remercie.",
+                "Merci à Lui de t'avoir mise sur ma route.",
+                "Merci à toi d'y être restée."
+            ],
+            [
+                "Et si le ciel me demandait un mot pour résumer tout ça,",
+                "Je dirais simplement :",
+                "" // Empty to create spacing
+            ]
         ];
 
         function handleNo() {
@@ -1336,7 +694,6 @@
         }
 
         function handleYes() {
-            // Start the sequence
             startSequence();
         }
 
@@ -1360,7 +717,7 @@
                     // Step 3: After loading, show message
                     setTimeout(() => {
                         showMessage();
-                    }, 3000); // 3 seconds loading
+                    }, 3000);
                 }, 500);
             }, 1200);
         }
@@ -1368,8 +725,8 @@
         function showMessage() {
             const loadingScreen = document.getElementById('loadingScreen');
             const messageScreen = document.getElementById('messageScreen');
-            const poemContainer = document.getElementById('poemContainer');
-            const finalWord = document.getElementById('finalWord');
+            const spotlightContent = document.getElementById('spotlightContent');
+            const backgroundMusic = document.getElementById('backgroundMusic');
             
             // Fade out loading
             loadingScreen.style.opacity = '0';
@@ -1380,48 +737,138 @@
                 // Show message screen
                 messageScreen.classList.add('active');
                 
-                // Start YouTube music
-                if (player && player.playVideo) {
-                    player.playVideo();
-                }
+                // Start music
+                backgroundMusic.play().catch(e => console.log('Music autoplay blocked - will start on interaction'));
                 
-                // Insert poem lines
-                poemLines.forEach((line, index) => {
-                    const lineDiv = document.createElement('div');
-                    lineDiv.className = 'poem-line';
-                    lineDiv.textContent = line;
-                    poemContainer.appendChild(lineDiv);
-                });
-                
-                // Animate lines one by one
-                const lines = document.querySelectorAll('.poem-line');
-                lines.forEach((line, index) => {
-                    setTimeout(() => {
-                        line.classList.add('visible');
-                    }, index * 2000); // 2 seconds between each line
-                });
-                
-                // Show final word
-                setTimeout(() => {
-                    finalWord.classList.add('visible');
-                    
-                    // After final word, fade to black
-                    setTimeout(() => {
-                        fadeToBlack();
-                    }, 3000);
-                }, lines.length * 2000 + 1000);
+                // Animate verse groups
+                animateVerseGroups();
             }, 500);
         }
 
-        function fadeToBlack() {
-            const messageScreen = document.getElementById('messageScreen');
+        function animateVerseGroups() {
+            const spotlightContent = document.getElementById('spotlightContent');
+            let currentGroup = 0;
+            const delayBetweenVerses = 2000; // 2 seconds between each verse
+            const delayBetweenGroups = 1500; // 1.5 seconds between groups
+
+            function showNextGroup() {
+                if (currentGroup >= verseGroups.length) {
+                    // After all groups, show "Je sais"
+                    setTimeout(() => {
+                        showSpecialVerse();
+                    }, 2000);
+                    return;
+                }
+
+                // Slide up previous group if exists
+                const previousGroups = document.querySelectorAll('.verse-group');
+                previousGroups.forEach(group => {
+                    if (!group.classList.contains('slide-up')) {
+                        group.classList.add('slide-up');
+                    }
+                });
+
+                // Create new group container
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'verse-group';
+                
+                const verses = verseGroups[currentGroup];
+                
+                // Add verses to the group
+                verses.forEach((verseText, index) => {
+                    const verseDiv = document.createElement('div');
+                    verseDiv.className = 'verse';
+                    verseDiv.textContent = verseText;
+                    groupDiv.appendChild(verseDiv);
+                    
+                    // Animate each verse with delay
+                    setTimeout(() => {
+                        verseDiv.classList.add('visible');
+                    }, index * delayBetweenVerses);
+                });
+                
+                spotlightContent.appendChild(groupDiv);
+                
+                // Move to next group after all verses are shown
+                const totalDelay = verses.length * delayBetweenVerses + delayBetweenGroups;
+                currentGroup++;
+                setTimeout(showNextGroup, totalDelay);
+            }
+
+            showNextGroup();
+        }
+
+        function showSpecialVerse() {
+            const spotlightContent = document.getElementById('spotlightContent');
             
-            // Fade out message screen to black
+            // Clear and slide up all previous content
+            const allGroups = document.querySelectorAll('.verse-group');
+            allGroups.forEach(group => {
+                group.style.animation = 'slideUpGroup 1s ease-out forwards';
+            });
+
+            setTimeout(() => {
+                // Clear all previous content
+                spotlightContent.innerHTML = '';
+                
+                // Show "Je sais"
+                const specialDiv = document.createElement('div');
+                specialDiv.className = 'special-verse';
+                specialDiv.textContent = 'Je sais.';
+                spotlightContent.appendChild(specialDiv);
+                
+                setTimeout(() => {
+                    specialDiv.classList.add('visible');
+                    
+                    // After 3 seconds, fade to black and stop music
+                    setTimeout(() => {
+                        fadeToBlackAndStop();
+                    }, 4000);
+                }, 100);
+            }, 1000);
+        }
+
+        function fadeToBlackAndStop() {
+            const messageScreen = document.getElementById('messageScreen');
+            const blackScreen = document.getElementById('blackScreen');
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            
+            // Fade out message screen
             messageScreen.style.opacity = '0';
+            
+            // Fade out music
+            let volume = 1;
+            const fadeAudio = setInterval(() => {
+                if (volume > 0.1) {
+                    volume -= 0.1;
+                    backgroundMusic.volume = volume;
+                } else {
+                    clearInterval(fadeAudio);
+                    backgroundMusic.pause();
+                    backgroundMusic.volume = 1;
+                }
+            }, 100);
             
             setTimeout(() => {
                 messageScreen.style.display = 'none';
-                // Screen stays black - no more content shown
+                blackScreen.classList.add('active');
+                
+                // After 2 seconds of black, show final message
+                setTimeout(() => {
+                    showFinalMessage();
+                }, 2000);
+            }, 1500);
+        }
+
+        function showFinalMessage() {
+            const blackScreen = document.getElementById('blackScreen');
+            const finalMessageScreen = document.getElementById('finalMessageScreen');
+            
+            blackScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                blackScreen.style.display = 'none';
+                finalMessageScreen.classList.add('active');
             }, 1000);
         }
 
