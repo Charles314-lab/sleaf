@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pour Toi ♡</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose-pale: #ffd6e8;
+            --rose-medium: #ffb3d9;
+            --rose-vif: #ff6ba9;
+            --bleu-pale: #d6e8ff;
+            --bleu-medium: #a8d0ff;
+            --bleu-profond: #5a8fd1;
+            --blanc-creme: #fffef9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, var(--bleu-pale) 0%, var(--rose-pale) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating hearts background */
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: var(--rose-medium);
+            opacity: 0.15;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .heart:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .heart:nth-child(2) { left: 25%; animation-delay: 3s; }
+        .heart:nth-child(3) { left: 40%; animation-delay: 6s; }
+        .heart:nth-child(4) { left: 55%; animation-delay: 2s; }
+        .heart:nth-child(5) { left: 70%; animation-delay: 5s; }
+        .heart:nth-child(6) { left: 85%; animation-delay: 8s; }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.15;
+            }
+            90% {
+                opacity: 0.15;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 60px 50px;
+            max-width: 550px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(90, 143, 209, 0.15),
+                        0 0 0 1px rgba(255, 182, 217, 0.2);
+            text-align: center;
+            animation: slideIn 1s ease-out;
+            transition: all 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--bleu-profond);
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--rose-vif);
+            margin-bottom: 40px;
+            font-style: italic;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .question-section {
+            margin: 50px 0;
+        }
+
+        .question {
+            font-size: 1.8rem;
+            color: var(--bleu-profond);
+            margin-bottom: 35px;
+            font-weight: 600;
+            line-height: 1.5;
+            transition: all 0.5s ease;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.3rem;
+            padding: 15px 45px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, var(--rose-vif) 0%, var(--rose-medium) 100%);
+            color: white;
+            box-shadow: 0 5px 20px rgba(255, 107, 169, 0.3);
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 169, 0.4);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, var(--bleu-profond) 0%, var(--bleu-medium) 100%);
+            color: white;
+            box-shadow: 0 5px 20px rgba(90, 143, 209, 0.3);
+        }
+
+        .btn-no:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(90, 143, 209, 0.4);
+        }
+
+        /* TV Shutdown Effect */
+        .tv-shutdown {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .tv-shutdown.active {
+            animation: tvOff 1.2s ease-out forwards;
+        }
+
+        @keyframes tvOff {
+            0% {
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+                transform: scaleY(1) scaleX(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scaleY(0.05) scaleX(1);
+                filter: brightness(3);
+            }
+            100% {
+                opacity: 1;
+                transform: scaleY(0) scaleX(0);
+                filter: brightness(0);
+            }
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            opacity: 0;
+        }
+
+        .loading-screen.active {
+            display: flex;
+            animation: fadeInScreen 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeInScreen {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .hearts-loader {
+            display: flex;
+            gap: 15px;
+        }
+
+        .heart-beat {
+            font-size: 40px;
+            animation: heartBeat 1.4s infinite;
+        }
+
+        .heart-beat:nth-child(1) {
+            color: var(--rose-vif);
+            animation-delay: 0s;
+        }
+
+        .heart-beat:nth-child(2) {
+            color: var(--rose-medium);
+            animation-delay: 0.2s;
+        }
+
+        .heart-beat:nth-child(3) {
+            color: var(--bleu-medium);
+            animation-delay: 0.4s;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 1;
+            }
+        }
+
+        .loading-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--rose-pale);
+            font-style: italic;
+        }
+
+        /* Message Screen with Spotlight */
+        .message-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9997;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .message-screen.active {
+            display: flex;
+            animation: fadeInScreen 1s ease-out forwards;
+        }
+
+        .spotlight-content {
+            max-width: 900px;
+            width: 90%;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(255, 214, 232, 0.12) 0%, transparent 70%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+        }
+
+        .verse-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            position: absolute;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .verse {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.6rem;
+            line-height: 2;
+            color: var(--rose-pale);
+            font-style: italic;
+            opacity: 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        .verse.visible {
+            animation: fadeInVerse 2.5s ease-out forwards;
+        }
+
+        @keyframes fadeInVerse {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .verse-container.fade-out {
+            animation: fadeUpOut 2s ease-out forwards;
+        }
+
+        @keyframes fadeUpOut {
+            to {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+        }
+
+        .special-verse {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--rose-vif);
+            font-weight: 600;
+            margin: 80px 0;
+            opacity: 0;
+            text-align: center;
+        }
+
+        .special-verse.visible {
+            animation: specialVerseReveal 3.5s ease-out forwards;
+        }
+
+        @keyframes specialVerseReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.7);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.15);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Final black screen */
+        .black-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: none;
+            z-index: 9998;
+            opacity: 0;
+        }
+
+        .black-screen.active {
+            display: block;
+            animation: fadeInScreen 1.5s ease-out forwards;
+        }
+
+        /* Final final message */
+        .final-message-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+        }
+
+        .final-message-screen.active {
+            display: flex;
+            animation: fadeInScreen 2s ease-out forwards;
+        }
+
+        .final-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: var(--rose-pale);
+            font-weight: 600;
+            font-style: italic;
+            text-align: center;
+            opacity: 0;
+            animation: finalTextReveal 3s ease-out forwards;
+        }
+
+        @keyframes finalTextReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Credits Screen - Movie Style */
+        .credits-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .credits-screen.active {
+            display: flex;
+            animation: fadeInScreen 2s ease-out forwards;
+        }
+
+        .credits-content {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.8rem;
+            color: var(--rose-pale);
+            text-align: center;
+            line-height: 2.5;
+            padding: 40px;
+            position: absolute;
+            bottom: -100%;
+            animation: scrollCredits 25s linear forwards;
+        }
+
+        @keyframes scrollCredits {
+            from {
+                bottom: -100%;
+            }
+            to {
+                bottom: 100%;
+            }
+        }
+
+        .credits-line {
+            margin: 30px 0;
+        }
+
+        .credits-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin: 50px 0 20px 0;
+            color: var(--rose-vif);
+        }
+
+        .credits-name {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .credits-date {
+            font-size: 1.6rem;
+            font-style: italic;
+            opacity: 0.8;
+            margin: 10px 0;
+        }
+
+        .credits-signature {
+            font-style: italic;
+            font-size: 2rem;
+            margin-top: 60px;
+        }
+
+        .credits-footer {
+            font-size: 1.4rem;
+            opacity: 0.6;
+            margin-top: 80px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 30px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .question {
+                font-size: 1.4rem;
+            }
+            
+            button {
+                font-size: 1.1rem;
+                padding: 12px 35px;
+            }
+            
+            .verse {
+                font-size: 1.2rem;
+            }
+
+            .special-verse {
+                font-size: 2.5rem;
+                margin: 60px 0;
+            }
+
+            .final-text {
+                font-size: 2.5rem;
+                padding: 0 20px;
+            }
+
+            .spotlight-content {
+                padding: 40px 20px;
+            }
+
+            .credits-content {
+                font-size: 1.3rem;
+                padding: 20px;
+            }
+
+            .credits-title {
+                font-size: 1.8rem;
+            }
+
+            .credits-name {
+                font-size: 1.6rem;
+            }
+
+            .credits-date {
+                font-size: 1.2rem;
+            }
+
+            .credits-signature {
+                font-size: 1.5rem;
+            }
+
+            .credits-footer {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div class="hearts-bg">
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <h1>Pour Toi</h1>
+        <div class="subtitle">Une question qui vient du cœur...</div>
+
+        <!-- Question section -->
+        <div class="question-section" id="questionSection">
+            <p class="question" id="questionText">Veux-tu être ma Valentine ? ♡</p>
+            <div class="buttons">
+                <button class="btn-yes" onclick="handleYes()">
+                    <span style="position: relative; z-index: 1;">Oui ♡</span>
+                </button>
+                <button class="btn-no" onclick="handleNo()">
+                    <span style="position: relative; z-index: 1;">Non</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TV Shutdown Effect -->
+    <div class="tv-shutdown" id="tvShutdown"></div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader">
+            <div class="hearts-loader">
+                <div class="heart-beat">♥</div>
+                <div class="heart-beat">♥</div>
+                <div class="heart-beat">♥</div>
+            </div>
+            <div class="loading-text">Préparation de quelque chose de spécial...</div>
+        </div>
+    </div>
+
+    <!-- Message Screen with Spotlight -->
+    <div class="message-screen" id="messageScreen">
+        <div class="spotlight-content" id="spotlightContent">
+            <!-- Verses will be inserted here dynamically -->
+        </div>
+    </div>
+
+    <!-- Black Screen -->
+    <div class="black-screen" id="blackScreen"></div>
+
+    <!-- Final Message Screen -->
+    <div class="final-message-screen" id="finalMessageScreen">
+        <div class="final-text">Je sais que je t'aime.</div>
+    </div>
+
+    <!-- Credits Screen -->
+    <div class="credits-screen" id="creditsScreen">
+        <div class="credits-content">
+            <div class="credits-title">À toi, mon amour</div>
+            
+            <div class="credits-name">Samuella Liebe Ewoe Aroube FOMBI.</div>
+            
+            
+            <div class="credits-line" style="margin-top: 80px;">
+                En ce jour de la Saint-Valentin,
+            </div>
+            <div class="credits-line">
+                Je te souhaite tout le bonheur du monde.
+            </div>
+            
+            <div class="credits-line" style="margin-top: 60px;">
+                Tu es et resteras
+            </div>
+            <div class="credits-line">
+                La plus belle chose qui me soit arrivée.
+            </div>
+            
+            <div class="credits-signature">
+                Avec tout mon amour,<br>
+                <em>Cariño</em> ♡
+            </div>
+            
+            <div class="credits-footer">
+                — Fait avec amour, le 14 février 2026 —
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio element -->
+    <audio id="backgroundMusic" loop preload="auto">
+        <!-- Place your music file in assets/ folder -->
+        <!-- Multiple formats for better browser compatibility -->
+        <source src="assets/music.mp3" type="audio/mpeg">
+        <source src="assets/music.ogg" type="audio/ogg">
+        <source src="assets/music.wav" type="audio/wav">
+    </audio>
+
+    <script>
+        let noClickCount = 0;
+
+        // Progressive romantic questions
+        const questions = [
+            "Veux-tu être ma Valentine ? ♡",
+            "Es-tu sûre ? Mon cœur bat déjà pour toi... 💕",
+            "Vraiment ? Tu es pourtant la plus belle chose qui me soit arrivée... ✨",
+            "S'il te plaît ? Chaque instant avec toi est magique... 🌟",
+            "Mon amour, ne sens-tu pas cette connexion entre nous ? 💫",
+            "Tu es celle qui illumine mes jours et mes nuits... 🌙",
+            "Sans toi, mon monde serait incomplet... 🌹",
+            "Tu es mon étoile dans l'immensité de l'univers... ⭐",
+            "Mon cœur n'appartient qu'à toi, acceptes-tu le mien ? 💖",
+            "Là je ne demande plus. T'es ma Valentine par force ! 😊",
+            "Allez, dis « Oui » 🥹✨"
+        ];
+
+        // Your beautiful love text - organized by groups of 3
+        const verseGroups = [
+            [
+                "Six mois.",
+                "Six mois depuis ce 4 août où nos chemins ont décidé de ne plus marcher seuls.",
+                "On a traversé des tempêtes avant même de s'appeler \"nous\". Et depuis, les vagues ne se calment pas toujours."
+            ],
+            [
+                "Les jours s'empilent, les doutes s'invitent, Les disputes montent,",
+                "Parce qu'aimer, c'est se découvrir,",
+                "Et se découvrir, c'est parfois se blesser."
+            ],
+            [
+                "On s'aime, alors tout nous atteint.",
+                "Certains disent qu'on a eu tort,",
+                "D'autres disent qu'on a eu raison. Et moi, je ne sais pas toujours ce que Dieu veut,"
+            ],
+            [
+                "Mais je sais ce que mon cœur crie.",
+                "Je sais que je t'aime.",
+                "Quand tu souris, le monde se recolore."
+            ],
+            [
+                "En un mot, tu changes mon humeur, ma vision, ma journée.",
+                "Avec toi, je connais le bonheur.",
+                "Pas le bonheur parfait,"
+            ],
+            [
+                "Mais le vrai celui qui lutte, qui pleure, qui reste.",
+                "Tu es ma lumière dans mes ombres,",
+                "Mon calme après la colère,"
+            ],
+            [
+                "Mon \"encore\" après \"je ne peux plus\".",
+                "Ceux qui ne voient pas ta valeur comprendront trop tard.",
+                "Moi, je la vois chaque jour,"
+            ],
+            [
+                "Dans ton regard, dans ton effort, dans ton \"je reste\".",
+                "Je me fiche des rumeurs,",
+                "Je me fiche de ce qu'on dit de toi, de nous."
+            ],
+            [
+                "Je n'ai besoin que d'une vérité : toi.",
+                "Je t'aime sans frein, sans barrière, sans calcul.",
+                "Et si ce n'est pas la volonté de Dieu, alors que Dieu sache que j'aurai aimé de tout ce qu'Il m'a donné."
+            ],
+            [
+                "Parce que je t'aime d'un amour fou, d'un amour qui prie, d'un amour qui espère, d'un amour qui remercie.",
+                "Merci à Lui de t'avoir mise sur ma route.",
+                "Merci à toi d'y être restée."
+            ],
+            [
+                "Et si le ciel me demandait un mot pour résumer tout ça,",
+                "Je dirais simplement :",
+                "" // Empty to create spacing
+            ]
+        ];
+
+        function handleNo() {
+            const questionText = document.getElementById('questionText');
+            const container = document.getElementById('mainContainer');
+            
+            // Shake animation
+            container.style.animation = 'none';
+            setTimeout(() => {
+                container.style.animation = 'shake 0.5s';
+            }, 10);
+            
+            // Change question
+            if (noClickCount < questions.length - 1) {
+                noClickCount++;
+                setTimeout(() => {
+                    questionText.style.opacity = '0';
+                    setTimeout(() => {
+                        questionText.textContent = questions[noClickCount];
+                        questionText.style.opacity = '1';
+                    }, 300);
+                }, 200);
+            }
+        }
+
+        function handleYes() {
+            // Start music immediately on user interaction
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            
+            // Set volume to full
+            backgroundMusic.volume = 1.0;
+            
+            console.log('Starting music on button click...');
+            console.log('Audio element:', backgroundMusic);
+            console.log('Audio src:', backgroundMusic.currentSrc);
+            
+            // Try to load and play
+            backgroundMusic.load();
+            
+            const playPromise = backgroundMusic.play();
+            
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        console.log('✅ Music started successfully!');
+                    })
+                    .catch(e => {
+                        console.error('❌ Music playback failed:', e);
+                        console.error('Error details:', e.message);
+                        alert('La musique ne peut pas se lancer. Verifie que le fichier assets/music.mp3 existe.');
+                    });
+            }
+            
+            // Start the sequence
+            startSequence();
+        }
+
+        function startSequence() {
+            const tvShutdown = document.getElementById('tvShutdown');
+            const loadingScreen = document.getElementById('loadingScreen');
+            const mainContainer = document.getElementById('mainContainer');
+            
+            // Step 1: TV Shutdown
+            tvShutdown.classList.add('active');
+            mainContainer.style.opacity = '0';
+            
+            setTimeout(() => {
+                mainContainer.style.display = 'none';
+                tvShutdown.classList.remove('active');
+                
+                // Step 2: Loading Screen
+                setTimeout(() => {
+                    loadingScreen.classList.add('active');
+                    
+                    // Step 3: After loading, show message
+                    setTimeout(() => {
+                        showMessage();
+                    }, 4000); // 4 seconds loading (was 3)
+                }, 500);
+            }, 1200);
+        }
+
+        function showMessage() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const messageScreen = document.getElementById('messageScreen');
+            const spotlightContent = document.getElementById('spotlightContent');
+            
+            // Fade out loading
+            loadingScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                
+                // Show message screen
+                messageScreen.classList.add('active');
+                
+                // Music already started on button click
+                
+                // Animate verse groups
+                animateVerseGroups();
+            }, 500);
+        }
+
+        function animateVerseGroups() {
+            const spotlightContent = document.getElementById('spotlightContent');
+            let currentGroup = 0;
+            const delayBetweenVerses = 4000; // 4 seconds between each verse (was 2.5)
+            const delayBeforeNextGroup = 2000; // 2 seconds after fade out before next group (was 1.5)
+
+            function showNextGroup() {
+                if (currentGroup >= verseGroups.length) {
+                    // After all groups, show "Je sais"
+                    setTimeout(() => {
+                        showSpecialVerse();
+                    }, 2000);
+                    return;
+                }
+
+                // Create container for this group
+                const container = document.createElement('div');
+                container.className = 'verse-container';
+                
+                const verses = verseGroups[currentGroup];
+                
+                // Add all 3 verses to the container (but invisible initially)
+                verses.forEach((verseText) => {
+                    const verseDiv = document.createElement('div');
+                    verseDiv.className = 'verse';
+                    verseDiv.textContent = verseText;
+                    container.appendChild(verseDiv);
+                });
+                
+                spotlightContent.appendChild(container);
+                
+                // Animate each verse appearing one by one
+                const verseElements = container.querySelectorAll('.verse');
+                verseElements.forEach((verseElement, index) => {
+                    setTimeout(() => {
+                        verseElement.classList.add('visible');
+                        
+                        // If this is the third verse (index 2), trigger fade out of entire group
+                        if (index === 2) {
+                            setTimeout(() => {
+                                container.classList.add('fade-out');
+                                
+                                // Remove container after fade out and show next group
+                                setTimeout(() => {
+                                    container.remove();
+                                    currentGroup++;
+                                    showNextGroup();
+                                }, 2000); // Duration of fade out animation (was 1500)
+                            }, delayBetweenVerses); // Wait before fading out
+                        }
+                    }, index * delayBetweenVerses);
+                });
+            }
+
+            showNextGroup();
+        }
+
+        function showSpecialVerse() {
+            const spotlightContent = document.getElementById('spotlightContent');
+            
+            // Clear all previous content
+            spotlightContent.innerHTML = '';
+            
+            // Show "Je sais"
+            const specialDiv = document.createElement('div');
+            specialDiv.className = 'special-verse';
+            specialDiv.textContent = 'Je sais.';
+            spotlightContent.appendChild(specialDiv);
+            
+            setTimeout(() => {
+                specialDiv.classList.add('visible');
+                
+                // After 6 seconds, fade to black and stop music (was 4)
+                setTimeout(() => {
+                    fadeToBlackAndStop();
+                }, 6000);
+            }, 100);
+        }
+
+        function fadeToBlackAndStop() {
+            const messageScreen = document.getElementById('messageScreen');
+            const blackScreen = document.getElementById('blackScreen');
+            // Music keeps playing - don't stop it
+            
+            // Fade out message screen
+            messageScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                messageScreen.style.display = 'none';
+                blackScreen.classList.add('active');
+                
+                // After 3 seconds of black, show final message (was 2)
+                setTimeout(() => {
+                    showFinalMessage();
+                }, 3000);
+            }, 2000);
+        }
+
+        function showFinalMessage() {
+            const blackScreen = document.getElementById('blackScreen');
+            const finalMessageScreen = document.getElementById('finalMessageScreen');
+            
+            blackScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                blackScreen.style.display = 'none';
+                finalMessageScreen.classList.add('active');
+                
+                // Wait 15 seconds, then fade out and show credits
+                setTimeout(() => {
+                    fadeToCredits();
+                }, 15000);
+            }, 1000);
+        }
+
+        function fadeToCredits() {
+            const finalMessageScreen = document.getElementById('finalMessageScreen');
+            const creditsScreen = document.getElementById('creditsScreen');
+            
+            // Fade out final message
+            finalMessageScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                finalMessageScreen.style.display = 'none';
+                // Show credits
+                creditsScreen.classList.add('active');
+            }, 2000);
+        }
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px) rotate(-2deg); }
+                75% { transform: translateX(10px) rotate(2deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
